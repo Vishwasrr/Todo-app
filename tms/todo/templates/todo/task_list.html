@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Todo List</h1>
+{% if task_list %}
+<ul id="list">
+    {% for item in task_list %}
+    {% if not item.done %}
+    <li> <a href=" {% url 'todo:detail' item.id %} ">{{ item.task }}</a></li>
+    <input type="checkbox" name=" {{task.task}} " value=" {{task.task}} " onchange="pushdown(this)">
+    <label for="{{task.task}} ">{{ item.task }}</label>
+    {% endif %}
+    {% endfor %}
+    {% for item in task_list %}
+    {% if item.done %}
+    <li> <a href=" {% url 'todo:detail' item.id %} ">{{ item.task }}</a></li>
+    <input type="checkbox" name=" {{task.task}} " value=" {{task.task}} " onchange="pushdown(this)">
+    <label for="{{task.task}} ">{{ item.task }}</label>
+    {% endif %}
+    {% endfor %}
+
+</ul>
+
+{% else %}
+<p>There are no tasks todo.</p>
+{% endif %}
+<p><a href="{% url 'todo:create' %}">Add a task</a></p>
+{% endblock %}
+
