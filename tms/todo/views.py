@@ -1,9 +1,17 @@
+from django.db.utils import IntegrityError
+from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 from django.urls import reverse_lazy
 # Create your views here.
 from .models import Task
 from todo.forms import TodoForm
+from django.views import View
+from django.views import generic
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class Index(ListView):
@@ -30,20 +38,36 @@ class Details(DetailView):
 
 class Create(CreateView):
     model = Task
-    fields = '__all__'
+    fields = ['task','desc']
     success_url = reverse_lazy('todo:items')
 
 
 class Update(UpdateView):
     model = Task
-    fields = '__all__'
+    fields = ['task', 'desc']
     success_url = reverse_lazy('todo:items')
 
 
 class Delete(DeleteView):
     model = Task
-    fields = '__all__'
+    fields = ['task', 'desc']
     success_url = reverse_lazy('todo:items')
+
+
+from django.views.decorators.csrf import csrf_exempt
+
+@method_decorator(csrf_exempt, name='dispatch')
+class Togglebool(View):
+    def post(self, request, pk):
+        print("Add PK", pk)
+        t = get_object_or_404(Task,id=pk)
+        t.done = not t.done
+        try:
+            print("hello")
+            t.save()  # In case of duplicate key
+        except IntegrityError as e:
+            pass
+        return HttpResponse()
 
 # class Create(CreateView):
 #     template_name = 'todo/todo_form.html'
