@@ -1,11 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit">
-    <input type="submit" onclick="window.location='{% url 'todo:items' %}' ; return false;" value="Cancel">
-</form>
+{% load static %}
+
+<style>
+    body {
+        background: url("{% static 'todo/create.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+
+        /* background-image: url("{% static 'todo/list.jpg' %}");
+        background-repeat: no-repeat; */
+    }
+</style>
+
+<body>
+
+    <div class="continer">
+
+        <form method="POST">
+            {% csrf_token %}
+            <br>
+            <h1>Add New Task</h1>
+            <hr>
+            <p>Task</p>
+            <input type="text" class="form-control" name="task">
+            <br>
+            <p>Content</p>
+            <textarea class="form-control" name="desc"> </textarea>
+            <br>
+            <button type="submit" class="btn btn-success">Add Task</button>
+            <input type="submit" onclick="window.location='{% url 'todo:items' %}' ; return false;" value="Cancel">
+        </form>
+    </div>
+</body>
 {% endblock %}

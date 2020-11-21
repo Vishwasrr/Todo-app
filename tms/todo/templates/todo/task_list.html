@@ -1,82 +1,124 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
-    <h1>Todo List</h1>
-    {% if task_list %}
-    <ul id="list">
-        {% for item in task_list %}
-        {% if item.done == False %}
-        <div id=line1>
-            <a href="#" onclick="favPost('{% url 'todo:toggle' item.id %}', );return false;"><svg width="1em"
-                    height="1em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
+{% load static %}
+<style>
+    body {
+        background: url("{% static 'todo/todo.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+
+        /* background-image: url("{% static 'todo/list.jpg' %}");
+        background-repeat: no-repeat; */
+    }
+</style>
+
+<body>
+    <div class="container">
+        <br><br>
+        <h2>Todo List</h2>
+        {% if task_list %}
+        <ul id="list">
+            {% for item in task_list %}
+            {% if item.done == False %}
+            <div id=line1
+                style=" display: flex;width: 85%;   font-size: 18px;border-color: rgb(16, 16, 17); border-width: 1px;border-style: solid; ">
+                <div style="float: left;width: 80%;padding-right:30px;padding-left:30px;">
+                    <a href="#" onclick="favPost('{% url 'todo:toggle' item.id %}',); return false;"
+                        style="padding-right:30px;padding-left:30px;"> <svg width="1em" height="1em" viewBox="0 0 16 16"
+                            class="bi bi-check-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path fill-rule="evenodd"
+                                d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z" />
+                        </svg></a>
+                    <a href="{% url 'todo:detail' item.id %}">{{ item.task }}</a>
+                </div>
+                <div>
+                    <a href="{% url 'todo:update' item.id %}"
+                        style="padding-right:15px;padding-left:15px; color: turquoise;"><svg width="1em" height="1em"
+                            viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path fill-rule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                        </svg></a> |
+                    <a href="{% url 'todo:delete' item.id %}"
+                        style="padding-right:15px;padding-left:15px; color:red;"><svg width="1em" height="1em"
+                            viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path fill-rule="evenodd"
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg></a>
+                </div>
+            </div>
+            <br>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+    </div>
+    <div class="container">
+        <h2>Done List</h2>
+        {% if task_list %}
+        </ul>
+        <ul id="list2">
+            {% for item in task_list %}
+            {% if item.done == True %}
+            <div id=line2
+                style=" display: flex;width: 85%;  font-size: 18px; border-color: rgb(12, 11, 11); border-width: 1px;border-style: solid; ">
+                <div style="float: left;width: 80%;padding-right:30px;padding-left:30px;">
+                    <a href="#" onclick="favPost('{% url 'todo:toggle' item.id %}', );return false;"
+                        style="padding-right:30px;padding-left:30px;"><svg width="1em" height="1em" viewBox="0 0 16 16"
+                            class="bi bi-check-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                        </svg></a>
+                    {{ item.task }}
+                </div>
+                <div>
+                    <a href="{% url 'todo:update' item.id %}"
+                        style="padding-right:15px;padding-left:15px; color: turquoise;"><svg width="1em" height="1em"
+                            viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path fill-rule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                        </svg></a> |
+                    <a href="{% url 'todo:delete' item.id %}"
+                        style="padding-right:15px;padding-left:15px; color:red"><svg width="1em" height="1em"
+                            viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path fill-rule="evenodd"
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg></a>
+                </div>
+            </div>
+            <br>
+            {% endif %}
+            {% endfor %}
+
+
+        </ul>
+
+
+        {% else %}
+        <div>There are no tasks todo.</div>
+
+        {% endif %}
+        <h4><a href="{% url 'todo:create' %}">Add a task <svg width="1em" height="1em" viewBox="0 0 16 16"
+                    class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
                         d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                     <path fill-rule="evenodd"
-                        d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z" />
-                </svg></a>
-            {{ item.task }}
-            
-                <a href="{% url 'todo:update' item.id %}" style="float: right;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                    <path fill-rule="evenodd"
-                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                </svg></a> |
-                <a href="{% url 'todo:delete' item.id %}" style="float: right;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                    <path fill-rule="evenodd"
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                </svg></a>
-        </div>
-        <br>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-</div>
-<div>
-    <h1>Done List</h1>
-    {% if task_list %}
-    </ul>
-    <ul id="list2">
-        {% for item in task_list %}
-        {% if item.done == True %}
-        <div id=line2>
-            <a href="#" onclick="favPost('{% url 'todo:toggle' item.id %}', );return false;"><svg width="1em"
-                    height="1em" viewBox="0 0 16 16" class="bi bi-check-circle-fill" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                </svg></a>
-            {{ item.task }}
-                <a href="{% url 'todo:update' item.id %}" style="float: right;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                    <path fill-rule="evenodd"
-                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                </svg></a> |
-                <a href="{% url 'todo:delete' item.id %}" style="float: right;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                    <path fill-rule="evenodd"
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                </svg></a>
-        </div>
-        <br>
-        {% endif %}
-        {% endfor %}
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg></a></h4>
+    </div>
 
-
-    </ul>
-
-    {% else %}
-    <p>There are no tasks todo.</p>
-    {% endif %}
-</div>
-<p><a href="{% url 'todo:create' %}">Add a task</a></p>
+</body>
 <script>function favPost(url) {
         console.log('Requesting JSON');
         $.post(url, {}, function (rowz) {

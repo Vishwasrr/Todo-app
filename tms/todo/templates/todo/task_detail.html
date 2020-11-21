@@ -1,8 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1> {{task.task}} </h1><br>
-<h3> {{task.desc}} </h3><br>
-<a class="btn btn-primary" href=" {% url 'todo:update' task.id %} ">Edit task</a>&nbsp;
-<a class="btn btn-danger" href=" {% url 'todo:delete' task.id %} ">Delete task</a><br><br>
-<a class="btn btn-primary" href=" {% url 'todo:items' %} ">Back to all tasks</a><br><br>
+{% load static %}
+
+<style>
+    body {
+        background: url("{% static 'todo/detail.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+
+        /* background-image: url("{% static 'todo/list.jpg' %}");
+        background-repeat: no-repeat; */
+    }
+</style>
+
+<body>
+
+    <h1> {{task.task}} </h1><br>
+    <h3> {{task.desc}} </h3><br>
+    <a class="btn btn-primary" href=" {% url 'todo:update' task.id %} ">Edit task</a>&nbsp;
+    <a class="btn btn-danger" href=" {% url 'todo:delete' task.id %} ">Delete task</a><br><br>
+    <a class="btn btn-primary" href=" {% url 'todo:items' %} ">Back to all tasks</a><br><br>
+</body>
 {% endblock %}

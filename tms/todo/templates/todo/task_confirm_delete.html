@@ -1,11 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Delete Task</h1>
+{% load static %}
 
-<p>Are you sure you want to delete the task: {{ task }}?</p>
+<style>
+    body {
+        background: url("{% static 'todo/delete.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
 
-<form action="" method="POST">
-    {% csrf_token %}
-    <input type="submit" value="Yes, delete.">
-</form>
+        /* background-image: url("{% static 'todo/list.jpg' %}");
+        background-repeat: no-repeat; */
+    }
+</style>
+
+<body>
+
+    <h1>Delete Task</h1>
+
+    <p>Are you sure you want to delete the task: {{ task }}?</p>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit">Yes, delete</button>
+    </form>
+</body>
 {% endblock %}
