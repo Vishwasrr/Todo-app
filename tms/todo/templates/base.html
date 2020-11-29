@@ -7,16 +7,17 @@
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
     <title>TODO</title>
     <style>
-        #line1{
+        #line1 {
             display: inline-block;
         }
-         #line2{
+
+        #line2 {
             display: inline-block;
         }
     </style>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css"
         crossorigin="anonymous">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" crossorigin="anonymous"></script>
 </head>
@@ -32,8 +33,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
-                    <a class="nav-link active" href="{% url 'todo:items' %}">Home <span
+                    <a class="nav-link active" href="{% url 'todo:items' %}">Home<span
                             class="sr-only">(current)</span></a>
+                    <a class="nav-link active" href="{% url 'login' %}?next={% url 'todo:items' %}">Login</a>
+                    <a class="nav-link active" href="{% url 'logout' %}?next={% url 'todo:items' %}">Logout</a>
                 </div>
             </div>
         </div>

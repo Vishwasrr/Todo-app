@@ -12,7 +12,7 @@ from todo.forms import TodoForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class Index(ListView):
+class Index(LoginRequiredMixin,ListView):
     model = Task
     # template_name = 'todo/todo_index.html'
 
@@ -24,7 +24,7 @@ class Index(ListView):
     # return render(request, 'todo/todo_list.html', ctx)
 
 
-class Details(DetailView):
+class Details(LoginRequiredMixin, DetailView):
     model = Task
     # template_name = 'todo/todo_details.html'
 
@@ -34,13 +34,13 @@ class Details(DetailView):
     #     return render(request, self.template_name, context)
 
 
-class Create(CreateView):
+class Create(LoginRequiredMixin, CreateView):
     model = Task
     fields = ['task', 'desc']
     success_url = reverse_lazy('todo:items')
 
 
-class Update(UpdateView):
+class Update(LoginRequiredMixin, UpdateView):
     model = Task
     template = 'todo/task_update.html'
     success_url = reverse_lazy('blog:home')
@@ -64,14 +64,14 @@ class Update(UpdateView):
     success_url = reverse_lazy('todo:items')
 
 
-class Delete(DeleteView):
+class Delete(LoginRequiredMixin, DeleteView):
     model = Task
     fields = ['task', 'desc']
     success_url = reverse_lazy('todo:items')
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class Togglebool(View):
+class Togglebool(LoginRequiredMixin, View):
     def post(self, request, pk):
         print("Add PK", pk)
         t = get_object_or_404(Task, id=pk)
