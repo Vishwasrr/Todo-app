@@ -12,7 +12,7 @@ from todo.forms import TodoForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class Index(LoginRequiredMixin,ListView):
+class Index(ListView):
     model = Task
     # template_name = 'todo/todo_index.html'
 
@@ -33,11 +33,10 @@ class Details(LoginRequiredMixin, DetailView):
     #     context = {'item': item}
     #     return render(request, self.template_name, context)
 
-
-class Create(LoginRequiredMixin, CreateView):
-    model = Task
-    fields = ['task', 'desc']
-    success_url = reverse_lazy('todo:items')
+def Create(request):
+    form = TodoForm(request.POST)
+    form.save()
+    return HttpResponse()
 
 
 class Update(LoginRequiredMixin, UpdateView):

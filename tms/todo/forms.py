@@ -6,4 +6,4 @@ from todo.models import Task
 class TodoForm(ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['task','desc']

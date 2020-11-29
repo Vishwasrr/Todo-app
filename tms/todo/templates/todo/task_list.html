@@ -9,7 +9,41 @@
         /* background-image: url("{% static 'todo/list.jpg' %}");
         background-repeat: no-repeat; */
     }
+
+    #myDIV {
+        display: none;
+    }
 </style>
+<script>
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function Submitform() {
+        var x = document.getElementById("myForm").elements[0].value;
+        var y = document.getElementById("myForm").elements[1].value;
+        console.log(x)
+        $.post("/create/", {
+            task: x,
+            desc:y,
+            csrfmiddlewaretoken: '{{csrf_token}}'
+        },function(rowz) {
+            console.log ('finished');
+            location.reload(true);
+        }).fail(function (xhr) {
+            alert('Url failed with ' + xhr.status + ' ' + url);
+        });
+
+
+    }
+</script>
 
 <body>
 
@@ -19,7 +53,7 @@
         <h2>Todo List</h2>
         {% if task_list %}
         <ul id="list">
-            {% for item in task_list %}
+            {% for item in task_list reversed %}
             {% if item.done == False %}
             <div id=line1
                 style=" display: flex;width: 85%;   font-size: 18px;border-color: rgb(16, 16, 17); border-width: 1px;border-style: solid; ">
@@ -65,7 +99,7 @@
         {% if task_list %}
         </ul>
         <ul id="list2">
-            {% for item in task_list %}
+            {% for item in task_list reversed %}
             {% if item.done == True %}
             <div id=line2
                 style=" display: flex;width: 85%;  font-size: 18px; border-color: rgb(12, 11, 11); border-width: 1px;border-style: solid; ">
@@ -111,19 +145,31 @@
         <div>There are no tasks todo.</div>
 
         {% endif %}
-        <h4><a href="{% url 'todo:create' %}">Add a task <svg width="1em" height="1em" viewBox="0 0 16 16"
+        <h4><a onclick="myFunction()">Add a task <svg width="1em" height="1em" viewBox="0 0 16 16"
                     class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
                         d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                     <path fill-rule="evenodd"
                         d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                 </svg></a></h4>
+
+        <div id="myDIV" class="form-group">
+            <form id="myForm">
+                <p>Task:</p>
+                <input type="text" class="form-control" name="task" placeholder="Enter task">
+                <br><br>
+                <p>dec</p>
+                <input type="text" class="form-control" name="dec" placeholder="Enter desc">
+                <br>
+            </form>
+            <button onclick="Submitform()" class="btn btn-secondary">GO</button>
+        </div>
     </div>
     {% else %}
-    <div class="container">
-        <p>
+    <div class="container" sytle="width:100%">
+        <div  style="padding-right:20%;padding-left:30%;padding-top:2% ">
         <h3>Please login to continue</h3>
-        </p>
+        </div>
     </div>
     {% endif %}
 </body>
@@ -135,6 +181,8 @@
         }).fail(function (xhr) {
             alert('Url failed with ' + xhr.status + ' ' + url);
         });
+
+
     }</script>
 
 {% endblock %}

@@ -33,10 +33,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
-                    <a class="nav-link active" href="{% url 'todo:items' %}">Home<span
-                            class="sr-only">(current)</span></a>
-                    <a class="nav-link active" href="{% url 'login' %}?next={% url 'todo:items' %}">Login</a>
-                    <a class="nav-link active" href="{% url 'logout' %}?next={% url 'todo:items' %}">Logout</a>
+                    <a class="nav-link active" href="{% url 'todo:items' %}">Home<span class="sr-only">(current)</span></a>
+                    {% if user.is_authenticated %}
+                    <a class="nav-link active" href="{% url 'logout' %}?next=/">Logout</a>
+                    {% else %}
+                    <a class="nav-link active" href="{% url 'login' %}?next=/">Login</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
