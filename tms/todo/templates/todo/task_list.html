@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+
 <style>
     body {
         background: url("{% static 'todo/todo.jpg' %}") no-repeat center center fixed;
@@ -14,35 +15,47 @@
         display: none;
     }
 </style>
+
 <script>
-    function myFunction() {
-        var x = document.getElementById("myDIV");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
+    function favPost(url) {
+            console.log('Requesting JSON');
+            $.post(url, {}, function (rowz) {
+                console.log(url, 'finished');
+                location.reload(true);
+            }).fail(function (xhr) {
+                alert('Url failed with ' + xhr.status + ' ' + url);
+            });
+
+
         }
-    }
-</script>
 
-<script>
-    function Submitform() {
-        var x = document.getElementById("myForm").elements[0].value;
-        var y = document.getElementById("myForm").elements[1].value;
-        console.log(x)
-        $.post("/create/", {
-            task: x,
-            desc:y,
-            csrfmiddlewaretoken: '{{csrf_token}}'
-        },function(rowz) {
-            console.log ('finished');
-            location.reload(true);
-        }).fail(function (xhr) {
-            alert('Url failed with ' + xhr.status + ' ' + url);
-        });
+        function myFunction() {
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        function Submitform() {
+            var x = document.getElementById("myForm").elements[0].value;
+            var y = document.getElementById("myForm").elements[1].value;
+            console.log(x)
+            $.post("/create/", {
+                task: x,
+                desc: y,
+                csrfmiddlewaretoken: '{{csrf_token}}'
+            }, function (rowz) {
+                console.log('finished');
+                location.reload(true);
+            }).fail(function (xhr) {
+                alert('Url failed with ' + xhr.status + ' ' + url);
+            });
 
 
-    }
+        }
+
 </script>
 
 <body>
@@ -167,22 +180,10 @@
     </div>
     {% else %}
     <div class="container" sytle="width:100%">
-        <div  style="padding-right:20%;padding-left:30%;padding-top:2% ">
-        <h3>Please login to continue</h3>
+        <div style="padding-right:20%;padding-left:30%;padding-top:2% ">
+            <h3>Please login to continue</h3>
         </div>
     </div>
     {% endif %}
 </body>
-<script>function favPost(url) {
-        console.log('Requesting JSON');
-        $.post(url, {}, function (rowz) {
-            console.log(url, 'finished');
-            location.reload(true);
-        }).fail(function (xhr) {
-            alert('Url failed with ' + xhr.status + ' ' + url);
-        });
-
-
-    }</script>
-
 {% endblock %}

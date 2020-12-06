@@ -10,18 +10,33 @@ from .models import Task
 from todo.forms import TodoForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 
 class Index(ListView):
     model = Task
+
+    def get(self, request):
+        strval = request.GET.get("search", False)
+        if strval:
+            # Simple title-only search
+            # objects = Task.objects.filter(title__contains=strval).select_related().order_by('-updated_at')[:10]
+
+            # Multi-field search
+            query = Q(task__contains=strval)
+            items = Task.objects.filter(query).select_related()
+        else:
+            # try both versions with > 4 posts and watch the queries that happen
+            items = Task.objects.all()
+            # objects = Task.objects.select_related().all().order_by('-updated_at')[:10]
     # template_name = 'todo/todo_index.html'
 
     # def get(self, request):
     #     # items = Task.objects.all().count()
     #     items = Task.objects.all()
 
-    #     ctx = {'items': items}
-    # return render(request, 'todo/todo_list.html', ctx)
+        ctx = {'task_list': items}
+        return render(request, 'todo/task_list.html', ctx)
 
 
 class Details(LoginRequiredMixin, DetailView):
@@ -32,6 +47,7 @@ class Details(LoginRequiredMixin, DetailView):
     #     item = Task.objects.get(id=pk)
     #     context = {'item': item}
     #     return render(request, self.template_name, context)
+
 
 def Create(request):
     form = TodoForm(request.POST)
